@@ -1,0 +1,53 @@
+local commandHistory = {}
+local historyIndex = 0
+
+-- Function to execute user commands
+local function executeCommand(command)
+    -- Store the command in history
+    if command ~= "" then
+        table.insert(commandHistory, command)
+        historyIndex = #commandHistory  -- Set index to the latest command
+    end
+
+    -- Command handling logic here...
+
+    -- Your existing command handling code...
+end
+
+-- Main Loop
+clearScreen()
+while true do
+    prompt()
+    local command = ""
+
+    -- Handle user input with history navigation
+    while true do
+        local event, key = os.pullEvent("key")
+        if key == keys.enter then
+            break  -- Execute command on enter
+        elseif key == keys.up then
+            if historyIndex > 0 then
+                historyIndex = historyIndex - 1
+                command = commandHistory[historyIndex + 1] or ""
+                term.setCursorPos(1, term.getCursorPos())
+                term.clearLine()
+                prompt()
+                write(command)
+            end
+        elseif key == keys.down then
+            if historyIndex < #commandHistory then
+                historyIndex = historyIndex + 1
+                command = commandHistory[historyIndex + 1] or ""
+                term.setCursorPos(1, term.getCursorPos())
+                term.clearLine()
+                prompt()
+                write(command)
+            end
+        else
+            command = command .. string.char(key)  -- Add typed character to command
+            write(string.char(key))  -- Display typed character
+        end
+    end
+
+    executeCommand(command)
+end
