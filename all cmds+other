@@ -1,0 +1,44 @@
+local function help()
+    local commands = {
+        "dir                  List files in the current directory.",
+        "cd <directory>      Change the current directory.",
+        "copy <src> <dest>   Copy a file from src to dest.",
+        "del <file>          Delete a specified file.",
+        "mkdir <dir>         Create a new directory.",
+        "rmdir <dir>         Remove an empty directory.",
+        "type <file>         Display the contents of a file.",
+        "move <src> <dest>   Move a file or directory from src to dest.",
+        "rename <old> <new>  Rename a file or directory.",
+        "echo <message>      Display a message on the screen.",
+        "ping <host>         Simulate a ping command.",
+        "find <name>         Search for a file by name.",
+        "pause               Pause execution and wait for user input.",
+        "date                Display the current date and time.",
+        "cls                 Clear the screen.",
+        "help                Display this help message.",
+        "exit                Exit the emulator."
+    }
+
+    local perPage = 5  -- Number of commands to show per page
+    local totalPages = math.ceil(#commands / perPage)
+    local currentPage = 1
+
+    while currentPage <= totalPages do
+        clearScreen()
+        print("CC_DOS Help - Page " .. currentPage .. "/" .. totalPages)
+        print("------------")
+
+        -- Display commands for the current page
+        for i = (currentPage - 1) * perPage + 1, math.min(currentPage * perPage, #commands) do
+            print(commands[i])
+        end
+
+        -- Prompt to show more
+        if currentPage < totalPages then
+            print("\nPress [ENTER] to show more commands...")
+            read()  -- Wait for user to press enter
+        end
+
+        currentPage = currentPage + 1
+    end
+end
